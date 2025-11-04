@@ -37,6 +37,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
+-- testing
+
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'Santhosh','santhosh@gmail.com','$2y$12$sAWODVkD/3DdxM697fB/a./w/Ni4Mrf9X6/o/IZ.RifURKf9Benam','2025-11-03 20:00:07');
