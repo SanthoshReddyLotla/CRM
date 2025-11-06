@@ -1,8 +1,11 @@
 <?php
-$host = "localhost";
-$dbname = "crm";
-$user = "root";
-$pass = "";
+$envPath = __DIR__ . '/../../.env';
+$env = parse_ini_file($envPath);
+
+$host = $env['HOST'];
+$dbname = $env['DBNAME'];
+$user = $env['USER'];
+$pass = $env['PASS'];
 
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);

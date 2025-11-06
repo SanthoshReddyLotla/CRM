@@ -19,9 +19,10 @@ class AuthController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user = User::findByEmail($pdo, $email);
+        User::setConnection($pdo);
+        $user = User::findOneBy(['email' => $email]);
 
-        if($user && password_verify($password, $user['password'])){
+        if ($user && password_verify($password, $user->password)) {
             $_SESSION['user'] = $email;
             header("Location: /../dashboard");
             exit;
