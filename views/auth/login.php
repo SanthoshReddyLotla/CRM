@@ -37,7 +37,7 @@
             <!-- start row -->
             <div class="row">
               <div class="col-md-10 mx-auto">
-                <form method="POST" action="/login" class=" vh-100 d-flex justify-content-between flex-column p-4 pb-0">
+                <form method="POST" action="/api/login" class=" vh-100 d-flex justify-content-between flex-column p-4 pb-0">
                   <div class="text-center mb-4 auth-logo">
                     <img src="assets/img/logo.svg" class="img-fluid" alt="Logo">
                   </div>
