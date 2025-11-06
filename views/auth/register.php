@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <base href="../../public/">
   <meta charset="utf-8">
   <title>Register | EV CRM</title>
   <link href="/assets/css/bootstrap.min.css" rel="stylesheet">

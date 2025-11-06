@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <base href="../../public/">
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +18,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Tabler Icon CSS -->
-    <link rel="stylesheet" href="assets/plugins/tabler-icons/tabler-icons.min.css">
+    <link rel="stylesheet" href="plugins/tabler-icons/tabler-icons.min.css">
     <!-- Simplebar CSS -->
     <link rel="stylesheet" href="assets/plugins/simplebar/simplebar.min.css">
     <!-- Main CSS -->
