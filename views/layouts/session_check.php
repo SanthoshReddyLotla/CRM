@@ -102,32 +102,9 @@ if (!defined('SESSION_HELPERS_DEFINED')) {
             return null;
         }
 
-        // Load PDO from root config
-        // $dbConfigPath = __DIR__ . '/../../../config/database.php';
-        // if (!file_exists($dbConfigPath)) {
-        //     destroy_session_and_redirect('/login');
-        // }
-
-        // require_once $dbConfigPath; // should define $pdo
-
         try {
-
             User::setConnection($pdo);
             $user = User::findOneBy(['email' => $_SESSION['user']]);
-
-
-            // $stmt = $pdo->prepare('SELECT id, email, role, name, is_active, created_at FROM users WHERE email = :email LIMIT 1');
-            // $stmt->execute([':email' => $_SESSION['user']]);
-            // $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // if (!$user || (isset($user['is_active']) && !$user['is_active'])) {
-            //     destroy_session_and_redirect('/login');
-            // }
-
-            // if (!empty($user['role'])) {
-            //     $_SESSION['role'] = $user['role'];
-            // }
-
             $_SESSION['__user_row'] = $user;
             return $user;
         } catch (Exception $e) {
