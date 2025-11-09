@@ -1,7 +1,13 @@
-<?php include __DIR__. "/../layouts/header.php" ?>
-<?php include __DIR__. "/../layouts/topbar.php" ?>
-<?php include __DIR__. "/../layouts/sidebar.php"?>
-      <!-- ========================
+<?php
+include __DIR__ . "/../../config/database.php";
+include __DIR__ . "/../layouts/session_check.php";
+require_login(); // Ensures user is logged in
+$user = session_current_user(); // Returns user array from DB
+include __DIR__. "/../layouts/header.php";
+include __DIR__. "/../layouts/topbar.php";
+include __DIR__. "/../layouts/sidebar.php";
+?>
+    <!-- ========================
         Start Page Content
     ========================= -->
       <div class="page-wrapper">
@@ -30,7 +36,7 @@
           <div class="welcome-wrap mb-4">
             <div class=" d-flex align-items-center justify-content-between flex-wrap gap-3 bg-dark rounded p-4">
               <div>
-                <h2 class="mb-1 text-white fs-24">Welcome Back, Adrian</h2>
+                <h2 class="mb-1 text-white fs-24">Welcome Back, <?php echo $user->email; ?></h2>
                 <p class="text-light fs-14 mb-0">14 New Companies Subscribed Today !!!</p>
               </div>
               <div class="d-flex align-items-center flex-wrap gap-2">
