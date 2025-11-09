@@ -1,67 +1,75 @@
 <?php
 // app/routes/web.php
 
-// Ensure we can access API controllers. Adjust path to where your Api/Auth controllers live.
-require_once __DIR__ . '/../../client/controllers/AuthController.php';
-// Optionally require other API controllers here, e.g. UserApiController, etc.
+// Load shared configuration / database from project root
+require_once __DIR__ . '/../../config/database.php';
 
-// Normalize URI and strip optional leading "api/" so this router works for both
-// POST /login  and POST /api/login
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$route = preg_replace('#^api/#', '', $uri);
+// Load the app-specific AuthController (app's controllers live in app/controllers)
+require_once __DIR__ . '/../controllers/AuthController.php';
 
-$method = $_SERVER['REQUEST_METHOD'];
+// Expect $uri to be provided by index.php (no re-parsing here)
+global $uri;
 
-// Re-use AuthController for API endpoints in this example.
-// You can create a separate ApiAuthController if you prefer JSON-only responses.
+// Normalize route and allow both /api/xyz and /xyz to work
+$route = preg_replace('#^api/#', '', trim((string)$uri, '/'));
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+// API responses should be JSON
+header('Content-Type: application/json; charset=utf-8');
+
+// Initialize app AuthController (which exposes handle* methods)
 $auth = new AuthController();
 
 switch ($route) {
+    // ---------------------------
+    // AUTH (API) ROUTES - app-only handlers (handle*)
+    // ---------------------------
     case '':
     case 'login':
         if ($method === 'POST') {
-            // handle login as API (expects $_POST or JSON body depending on your controller)
-            // pass $pdo if your controller expects it
-            $auth->login($pdo);
+            // Expect AuthController::handleLogin(PDO $pdo)
+            $auth->handleLogin($pdo);
         } else {
-            // If somehow a non-POST request reaches here, return a 405 or route to client
-            header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
-            echo 'Method not allowed for API login';
+            http_response_code(405);
+            echo json_encode(['error' => 'Method Not Allowed for /login']);
         }
         break;
 
     case 'register':
         if ($method === 'POST') {
-            $auth->register($pdo);
+            // Expect AuthController::handleRegister(PDO $pdo)
+            $auth->handleRegister($pdo);
         } else {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
-            echo 'Method not allowed for API register';
+            http_response_code(405);
+            echo json_encode(['error' => 'Method Not Allowed for /register']);
         }
         break;
 
     case 'logout':
         if ($method === 'POST') {
-            $auth->logout();
+            // Expect AuthController::handleLogout()
+            // $auth->handleLogout();
         } else {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
-            echo 'Method not allowed for API logout';
+            http_response_code(405);
+            echo json_encode(['error' => 'Method Not Allowed for /logout']);
         }
         break;
 
-    // Example API-only endpoints (adjust/expand as needed)
     case 'forgotPassword':
         if ($method === 'POST') {
-            // e.g. send reset email
-            // $auth->forgotPasswordHandler();
+            // Expect AuthController::handleForgotPassword(PDO $pdo)
+            // $auth->handleForgotPassword($pdo);
         } else {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
-            echo 'Method not allowed for API forgotPassword';
+            http_response_code(405);
+            echo json_encode(['error' => 'Method Not Allowed for /forgotPassword']);
         }
         break;
 
+    // ---------------------------
+    // Default / Not found
+    // ---------------------------
     default:
-        // Not found in API routes
-        header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-        echo 'API endpoint not found';
+        http_response_code(404);
+        echo json_encode(['error' => 'API endpoint not found', 'route' => $route]);
         break;
 }

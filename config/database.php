@@ -1,5 +1,5 @@
 <?php
-$envPath = __DIR__ . '/../../.env';
+$envPath = __DIR__ . '/../.env';
 $env = parse_ini_file($envPath);
 
 $host = $env['HOST'];
