@@ -26,6 +26,7 @@ class AuthController {
 
         if ($user && password_verify($password, $user->password)) {
             $_SESSION['user'] = $email;
+            $_SESSION['role'] = $user->role;
             header("Location: /dashboard");
             exit;
         } else {
